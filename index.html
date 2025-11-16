@@ -549,7 +549,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
 <span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Last, we left join the two artificially split tibbles to recreate the full one. <code>mar_group_involvement</code> features <code>{r}nrow(mar_group_belonging)</code> observations, and `{r}nrow(mar_group_involvement)``, meaning that certain belonged-to groups have missing values for involvement. By left-joining on belonging, we capture those cases as well.</p>
+<p>Last, we left join the two artificially split tibbles to recreate the full one. <code>mar_group_involvement</code> features 229 observations, and 227`, meaning that certain belonged-to groups have missing values for involvement. By left-joining on belonging, we capture those cases as well.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>mar_group_clean <span class="ot">&lt;-</span> <span class="fu">left_join</span>(</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  mar_group_belonging,         </span>
