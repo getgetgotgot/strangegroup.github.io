@@ -316,7 +316,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="monthly-survey-1">2.3.1 Monthly Survey</h3>
 <p>For each of the relevant monthly survey tibbles, we must perform adequate tidying in accord with the principle.</p>
 <p><strong>Initial Survey/March, 2010</strong></p>
-<p>Group participation</p>
+<p><em>Group participation</em></p>
 <p>We may first inspect the original tibble. As seen bellow, column headers contain multiple types of information: besides the belonging/involvement variable, they also contain group number (1-6) and group type (formal/informal). This is in violation with principle three as stated above.</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -549,7 +549,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
 <span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Last, we left join the two artificially split tibbles to recreate the full one. <code>mar_group_involvement</code> features 229 observations, and 227`, meaning that certain belonged-to groups have missing values for involvement. By left-joining on belonging, we capture those cases as well.</p>
+<p>Last, we left join the two artificially split tibbles to recreate the full one. <code>mar_group_involvement</code> features 229 observations, and 227, meaning that certain belonged-to groups have missing values for involvement. By left-joining on belonging, we capture those cases as well.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>mar_group_clean <span class="ot">&lt;-</span> <span class="fu">left_join</span>(</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  mar_group_belonging,         </span>
@@ -613,6 +613,120 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">pottery</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: left;">Informal</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><em>Communication</em></p>
+<p>Glimpse the communication table before principle three is applied. As can be noticed, one variable is here spread across several columns (channel of communication with friends). Frequencies are measured in terms of participant <em>and</em> channel.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 25%">
+<col style="width: 24%">
+<col style="width: 19%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">participantID</th>
+<th style="text-align: left;">Communicate.remote.friends..phone..landline.or.cell.phone.</th>
+<th style="text-align: left;">Communicate.remote.friends..internet.phone..ex..Skype.</th>
+<th style="text-align: left;">Communicate.remote.friends..text.message.SMS</th>
+<th style="text-align: left;">Communicate.remote.friends..online.chat.instant.message</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">sp10-01-02</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sp10-01-01</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sp10-01-12</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sp10-01-11</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sp10-01-13</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: left;">NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>…mmkay</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>mar10_commu_clean <span class="ot">&lt;-</span> mar10_commu <span class="sc">|&gt;</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span>participantID,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to =</span> <span class="st">"Channel"</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_pattern =</span><span class="st">"Communicate</span><span class="sc">\\</span><span class="st">.remote</span><span class="sc">\\</span><span class="st">.friends</span><span class="sc">\\</span><span class="st">.</span><span class="sc">\\</span><span class="st">.(.*)"</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">"Frequency"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">Channel =</span> <span class="fu">str_replace_all</span>(Channel, <span class="st">"</span><span class="sc">\\</span><span class="st">."</span>, <span class="st">" "</span>) </span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now the output looks like this:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">participantID</th>
+<th style="text-align: left;">Channel</th>
+<th style="text-align: left;">Frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">sp10-01-02</td>
+<td style="text-align: left;">phone landline or cell phone</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sp10-01-02</td>
+<td style="text-align: left;">internet phone ex Skype</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sp10-01-02</td>
+<td style="text-align: left;">text message SMS</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sp10-01-02</td>
+<td style="text-align: left;">online chat instant message</td>
+<td style="text-align: left;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sp10-01-01</td>
+<td style="text-align: left;">phone landline or cell phone</td>
+<td style="text-align: left;">NA</td>
 </tr>
 </tbody>
 </table>
